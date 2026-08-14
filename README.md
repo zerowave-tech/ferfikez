@@ -18,6 +18,8 @@ dc-рантайме с шаблонами `{{ }}`, `<sc-if>` / `<sc-for>` и в�
 │   ├── images/                 # фото и логотип, используемые страницей
 │   │   ├── hero-tools.jpg
 │   │   └── logo-mark.png
+│   ├── js/
+│   │   └── scroll-reveal.js    # анимация появления блоков при скролле
 │   ├── icons/                  # контурные иконки-инструменты (декор секций)
 │   │   ├── line-hammer.png
 │   │   ├── line-saw.png
@@ -27,6 +29,7 @@ dc-рантайме с шаблонами `{{ }}`, `<sc-if>` / `<sc-for>` и в�
 │       ├── tool-*.png          # отдельные вырезанные инструменты
 │       └── src-*.jpg|webp      # оригиналы под hero и иконки
 ├── docs/
+│   ├── scroll-reveal.md        # как устроена и подключена scroll-анимация
 │   └── screenshots/            # скриншоты итераций и проверок вёрстки
 └── uploads/                    # инбокс загрузок хоста (в git не попадает)
 ```
@@ -95,6 +98,14 @@ rewrite (Netlify: `_redirects` со строкой `/  /Ferfikez%20Redesign.dc.h
 Роутинг — через `<sc-if>` по флагам: `isHome`, `isServices`, `isPrices`,
 `isRefs`, `isPartners`, `isTeam`, `isBlog`, `isContact`. Услуги разбиты на три
 группы: *Házon belül*, *Kerti munkák*, *Autós munkák*.
+
+## Анимации
+
+Блоки появляются при скролле (fade-up, де-зум картинок, маска-разворот у
+`h1`/`h2`) — за это отвечает `assets/js/scroll-reveal.js`, подключённый в
+`<helmet>` страницы. Разметку целей скрипт делает сам по списку селекторов,
+править HTML не нужно. Подробности и что менять при новых секциях —
+[`docs/scroll-reveal.md`](docs/scroll-reveal.md).
 
 ## Работа с ассетами
 
