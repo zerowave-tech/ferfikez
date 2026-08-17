@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="./assets/js/scroll-reveal.js" data-rv-profile="mobile" defer></script>
+<style>
+  body { margin:0; background:#1C2A38; font-family:Manrope, sans-serif; -webkit-text-size-adjust:100%; }
+  a { color:#1C2A38; text-decoration:none; }
+  a:hover { color:#1F6FA8; }
+  ::selection { background:#86BCE8; color:#1C2A38; }
+  .fk-scroll::-webkit-scrollbar { display:none; }
+</style>
+</helmet>
+
+<div style="background:#EDF2F6;color:#1C2A38;font-family:Manrope,sans-serif;min-height:100vh;max-width:520px;margin:0 auto;overflow-x:hidden;padding-bottom:74px">
+
+  <header style="position:sticky;top:0;z-index:60;background:#1C2A38;border-bottom:1px solid rgba(255,255,255,0.08)">
+    <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;min-height:60px">
+      <div onClick="{{ goHome }}" style="display:flex;align-items:center;gap:10px;cursor:pointer;flex:1;min-width:0">
+        <img src="./assets/images/logo-mark.png" alt="Férfikéz egy órára" style="width:34px;height:33px;object-fit:contain;flex:none;display:block">
+        <div style="line-height:1;min-width:0">
+          <div style="font-family:Archivo,sans-serif;font-weight:900;font-size:15px;letter-spacing:-0.03em;color:#EDF2F6;text-transform:uppercase">Férfikéz</div>
+          <div style="font-weight:600;font-size:8.5px;letter-spacing:0.26em;color:#86BCE8;text-transform:uppercase;margin-top:3px">Egy órára</div>
+        </div>
+      </div>
+      <a href="tel:+36205721788" style="flex:none;width:46px;height:46px;background:#86BCE8;color:#1C2A38;display:flex;align-items:center;justify-content:center" style-active="background:#EDF2F6">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>
+      </a>
+      <div onClick="{{ toggleMenu }}" style="flex:none;width:46px;height:46px;border:1px solid rgba(255,255,255,0.22);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer">
+        <span style="width:20px;height:2px;background:#EDF2F6;display:block"></span>
+        <span style="width:20px;height:2px;background:#EDF2F6;display:block"></span>
+        <span style="width:13px;height:2px;background:#86BCE8;display:block"></span>
+      </div>
+    </div>
+    <div style="height:32px;display:flex;align-items:center;border-top:1px solid rgba(255,255,255,0.08);overflow:hidden">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#86BCE8;padding:0 16px;white-space:nowrap">{{ pageLabel }}</div>
+      <div style="flex:1;height:1px;background:rgba(255,255,255,0.1)"></div>
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.16em;text-transform:uppercase;color:#5E6B78;padding:0 16px;white-space:nowrap">Budapest</div>
+    </div>
+  </header>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:80;background:#1C2A38;display:flex;flex-direction:column;max-width:520px;margin:0 auto">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid rgba(255,255,255,0.1)">
+        <div style="font-family:Archivo,sans-serif;font-weight:900;font-size:13px;letter-spacing:0.16em;color:#86BCE8;text-transform:uppercase">Menü</div>
+        <div onClick="{{ toggleMenu }}" style="width:44px;height:44px;border:1px solid rgba(255,255,255,0.22);display:flex;align-items:center;justify-content:center;cursor:pointer;color:#EDF2F6;font-size:22px;line-height:1">×</div>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:8px 16px 24px">
+        <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
+          <div onClick="{{ n.onClickClose }}" style="cursor:pointer;padding:18px 0;border-bottom:1px solid rgba(255,255,255,0.09);display:flex;align-items:baseline;gap:14px">
+            <span style="font-family:Archivo,sans-serif;font-weight:800;font-size:11px;letter-spacing:0.12em;color:{{ n.numColor }};flex:none">{{ n.num }}</span>
+            <span style="font-family:Archivo,sans-serif;font-weight:800;font-size:26px;letter-spacing:-0.03em;color:{{ n.color }}">{{ n.label }}</span>
+          </div>
+        </sc-for>
+        <div style="display:grid;gap:10px;margin-top:28px">
+          <a href="tel:+36205721788" style="background:#86BCE8;color:#1C2A38;font-family:Archivo,sans-serif;font-weight:800;font-size:14px;letter-spacing:0.04em;text-transform:uppercase;padding:19px;text-align:center">+36 20 572 1788</a>
+          <a href="mailto:ferfikez@gmail.com" style="border:1px solid rgba(255,255,255,0.25);color:#EDF2F6;font-family:Archivo,sans-serif;font-weight:800;font-size:14px;letter-spacing:0.04em;text-transform:uppercase;padding:19px;text-align:center">ferfikez@gmail.com</a>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <main>
+    <section style="background:#1C2A38;color:#EDF2F6;padding:36px 0 0;position:relative;overflow:hidden">
+      <img src="./assets/images/hero-tools.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%">
+      <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,31,43,0.9) 0%,rgba(20,31,43,0.82) 45%,rgba(20,31,43,0.96) 100%)"></div>
+      <div style="position:relative;padding:0 16px">
+        <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,0.2);padding:7px 12px;font-size:9.5px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#86BCE8;margin-bottom:22px">Ezermester · Budapest és környéke</div>
+        <h1 style="font-family:Archivo,sans-serif;font-weight:900;font-size:40px;line-height:0.96;letter-spacing:-0.035em;margin:0 0 18px;text-wrap:balance">Nincs otthon, aki megjavítsa?<br><span style="color:#86BCE8">Egy hívás, és ott vagyunk.</span></h1>
+        <p style="font-size:16px;line-height:1.55;color:#9DAAB8;margin:0 0 26px;text-wrap:pretty">Fúrás, szerelés, bútorösszeszerelés, kerti és autós munkák. Az a kis munka, amiért a szakember nem szívesen jön ki — nálunk ez a fő profil.</p>
+        <div style="display:grid;gap:10px;margin-bottom:28px">
+          <a href="tel:+36205721788" style="background:#86BCE8;color:#1C2A38;font-family:Archivo,sans-serif;font-weight:800;font-size:14.5px;letter-spacing:0.04em;padding:20px;text-transform:uppercase;text-align:center" style-active="background:#fff">Hívjon most</a>
+          <div onClick="{{ goContact }}" style="cursor:pointer;border:1px solid rgba(255,255,255,0.25);color:#EDF2F6;font-family:Archivo,sans-serif;font-weight:800;font-size:14.5px;letter-spacing:0.04em;padding:20px;text-transform:uppercase;text-align:center" style-active="border-color:#86BCE8;color:#86BCE8">Árajánlatot kérek</div>
+        </div>
+        <div style="background:#86BCE8;color:#1C2A38;padding:22px 22px 20px;display:flex;align-items:center;gap:18px">
+          <div style="font-family:Archivo,sans-serif;font-weight:900;font-size:22px;line-height:1;letter-spacing:-0.03em;text-transform:uppercase;flex:none">Aznap<br>kiszállás</div>
+          <div style="font-size:13px;font-weight:600;line-height:1.4">Budapest és környéke — hétköznap és hétvégén is.</div>
+        </div>
+      </div>
+      <div class="fk-scroll" style="position:relative;margin-top:26px;border-top:1px solid rgba(255,255,255,0.12);border-bottom:1px solid rgba(255,255,255,0.12);padding:15px 16px;display:flex;gap:18px;overflow-x:auto;scrollbar-width:none">
+        <sc-for list="{{ tags }}" as="t" hint-placeholder-count="5">
+          <div style="display:flex;align-items:center;gap:9px;font-family:Archivo,sans-serif;font-weight:700;font-size:12px;letter-spacing:0.08em;color:#EDF2F6;text-transform:uppercase;white-space:nowrap;flex:none">
+            <span style="width:5px;height:5px;background:#86BCE8;display:block;flex:none"></span>{{ t }}
+          </div>
+        </sc-for>
+      </div>
+    </section>
+
+    <section style="background:#EDF2F6;padding:52px 0">
+      <div style="padding:0 16px">
+        <div style="font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#7C8A99;margin-bottom:14px">Ismerős a helyzet?</div>
+        <h2 style="font-family:Archivo,sans-serif;font-weight:900;font-size:34px;line-height:0.98;letter-spacing:-0.035em;margin:0 0 14px">Akkor jó helyen jár.</h2>
+        <p style="font-size:16px;line-height:1.6;color:#566472;margin:0 0 26px">Megbízható, gyors és pontos munkavégzés azokra a feladatokra, amikhez nem kell villanyszerelőt vagy asztalost hívni.</p>
+        <div style="display:grid;gap:10px">
+          <div style="background:#1C2A38;color:#EDF2F6;padding:26px 22px 24px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:11px;letter-spacing:0.2em;color:#86BCE8">01</div>
+            <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:23px;line-height:1.15;letter-spacing:-0.025em;text-wrap:pretty">Csöpög a csap, és hetek óta senki nem javítja meg.</div>
+          </div>
+          <div style="background:#fff;padding:24px 22px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:11px;letter-spacing:0.2em;color:#9DAAB8">02</div>
+            <div style="font-family:Archivo,sans-serif;font-weight:600;font-size:19px;line-height:1.25;letter-spacing:-0.02em;text-wrap:pretty">Vásárolt egy új lámpát, de nincs, aki felszerelje.</div>
+          </div>
+          <div style="background:#86BCE8;color:#1C2A38;padding:24px 22px;display:flex;flex-direction:column;gap:12px">
+            <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:11px;letter-spacing:0.2em;opacity:0.5">03</div>
+            <div style="font-family:Archivo,sans-serif;font-weight:600;font-size:19px;line-height:1.25;letter-spacing:-0.02em;text-wrap:pretty">Megvette a szekrényt, de otthon derült ki: nincs, aki összerakja.</div>
+          </div>
+          <div style="border:1px solid rgba(28,42,56,0.22);padding:20px 22px;display:flex;gap:14px;align-items:baseline">
+            <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:11px;letter-spacing:0.2em;color:#9DAAB8;flex:none">04</div>
+            <div style="font-family:Archivo,sans-serif;font-weight:600;font-size:17px;line-height:1.3;letter-spacing:-0.02em">Leszakadt a polc, és nincs, aki visszafúrja.</div>
+          </div>
+          <div style="border:1px solid rgba(28,42,56,0.22);padding:20px 22px;display:flex;gap:14px;align-items:baseline">
+            <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:11px;letter-spacing:0.2em;color:#9DAAB8;flex:none">05</div>
+            <div style="font-family:Archivo,sans-serif;font-weight:600;font-size:17px;line-height:1.3;letter-spacing:-0.02em">Szétesett a kilincs, és egy szög sem megy be a falba.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#EDF2F6;padding:0 0 52px">
+      <div style="padding:0 16px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px">
+          <h2 style="font-family:Archivo,sans-serif;font-weight:900;font-size:30px;line-height:1;letter-spacing:-0.03em;margin:0">Szolgáltatásaink</h2>
+          <div onClick="{{ goServices }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-weight:800;font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;border-bottom:2px solid #86BCE8;padding-bottom:4px;white-space:nowrap;flex:none">Összes</div>
+        </div>
+        <div style="display:grid;gap:12px">
+          <div onClick="{{ goHazon }}" style="cursor:pointer;background:#1C2A38;color:#EDF2F6;display:flex;flex-direction:column">
+            <div style="height:220px;overflow:hidden;background-image:url({{ svcHazon }});background-size:cover;background-position:center"></div>
+            <div style="padding:22px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
+              <div>
+                <div style="font-size:9.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;opacity:0.55;margin-bottom:9px">Legkeresettebb</div>
+                <h3 style="font-family:Archivo,sans-serif;font-weight:900;font-size:27px;letter-spacing:-0.03em;margin:0 0 8px">Házon belül</h3>
+                <p style="font-size:14.5px;line-height:1.5;margin:0;opacity:0.75">Fúrás, szerelés, bútorösszeszerelés, apró javítások.</p>
+              </div>
+              <div style="font-family:Archivo,sans-serif;font-weight:900;font-size:22px;flex:none;color:#86BCE8">→</div>
+            </div>
+          </div>
+          <div onClick="{{ goKerti }}" style="cursor:pointer;background:#fff;display:grid;grid-template-columns:118px minmax(0,1fr)">
+            <div style="min-height:150px;background-image:url({{ svcKerti }});background-size:cover;background-position:center"></div>
+            <div style="padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:12px">
+              <div>
+                <h3 style="font-family:Archivo,sans-serif;font-weight:800;font-size:21px;letter-spacing:-0.025em;margin:0 0 7px">Kerti munkák</h3>
+                <p style="font-size:14px;line-height:1.5;color:#566472;margin:0">Fűnyírás, sövénynyírás, kerítés, terasz.</p>
+              </div>
+              <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;color:#1F6FA8">Bővebben →</div>
+            </div>
+          </div>
+          <div onClick="{{ goAutos }}" style="cursor:pointer;background:#fff;display:grid;grid-template-columns:118px minmax(0,1fr)">
+            <div style="min-height:150px;background-image:url({{ svcAutos }});background-size:cover;background-position:center"></div>
+            <div style="padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:12px">
+              <div>
+                <h3 style="font-family:Archivo,sans-serif;font-weight:800;font-size:21px;letter-spacing:-0.025em;margin:0 0 7px">Autós munkák</h3>
+                <p style="font-size:14px;line-height:1.5;color:#566472;margin:0">Kerékcsere, izzócsere, takarítás.</p>
+              </div>
+              <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;color:#1F6FA8">Bővebben →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section style="background:#1C2A38;color:#EDF2F6;padding:52px 0;position:relative;overflow:hidden">
+      <img src="./assets/icons/line-hammer.png" alt="" style="position:absolute;left:-46px;top:-10px;width:170px;opacity:0.22;transform:rotate(-14deg);pointer-events:none"><img src="./assets/icons/line-saw.png" alt="" style="position:absolute;right:-40px;bottom:10px;width:190px;opacity:0.18;transform:rotate(6deg);pointer-events:none"><img src="./assets/icons/line-screwdriver.png" alt="" style="position:absolute;right:14%;top:34%;width:70px;opacity:0.12;transform:rotate(34deg);pointer-events:none">
+      <div style="position:relative;padding:0 16px">
+        <h2 style="font-family:Archivo,sans-serif;font-weight:900;font-size:32px;line-height:0.98;letter-spacing:-0.035em;margin:0 0 14px">Három lépés, és kész.</h2>
+        <p style="font-size:15.5px;line-height:1.6;color:#9DAAB8;margin:0 0 8px">Nincs felmérési díj, nincs kötelezettség. Egy telefonhívással kiderül, mennyibe kerül.</p>
+        <div style="display:grid;gap:0">
+          <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+            <div style="display:grid;grid-template-columns:56px minmax(0,1fr);gap:16px;align-items:start;padding:24px 0;border-bottom:1px solid rgba(255,255,255,0.14)">
+              <div style="font-family:Archivo,sans-serif;font-weight:900;font-size:44px;letter-spacing:-0.05em;color:#86BCE8;line-height:0.8">{{ s.n }}</div>
+              <div>
+                <h3 style="font-family:Archivo,sans-serif;font-weight:800;font-size:21px;letter-spacing:-0.025em;margin:0 0 7px">{{ s.t }}</h3>
+                <p style="font-size:15px;line-height:1.55;color:#9DAAB8;margin:0">{{ s.d }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <sc-if value="{{ showEbook }}" hint-placeholder-val="{{ true }}">
+      <section style="background:#EDF2F6;padding:36px 0 52px">
+        <div style="padding:0 16px">
+          <div style="background:#86BCE8;color:#1C2A38;padding:30px 22px 28px">
+            <div style="font-size:9.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:14px">Nőknek</div>
+            <h2 style="font-family:Archivo,sans-serif;font-weight:900;font-size:28px;line-height:1.04;letter-spacing:-0.03em;margin:0 0 14px">Ingyenes e-book: ház körüli munkák gyorstalpaló</h2>
+            <p style="font-size:15.5px;line-height:1.6;margin:0 0 22px;color:#22303E">Praktikus trükkök, amikhez nem kell sem férfierő, sem szakértelem. Töltse le most.</p>
+            <a href="#" style="display:block;background:#1C2A38;color:#86BCE8;font-family:Archivo,sans-serif;font-weight:800;font-size:14px;letter-spacing:0.04em;padding:19px;text-transform:uppercase;text-align:center">Letöltöm</a>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{ showBlogOnHome }}" hint-placeholder-val="{{ true }}">
+      <section style="background:#EDF2F6;padding:0 0 52px">
+        <div style="padding:0 16px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:22px">
+            <h2 style="font-family:Archivo,sans-serif;font-weight:900;font-size:30px;line-height:1;letter-spacing:-0.03em;margin:0">Legfrissebb cikkeink</h2>
+            <div onClick="{{ goBlog }}" style="cursor:pointer;font-family:Archivo,sans-serif;font-weight:800;font-size:11.5px;letter-spacing:0.06em;text-transform:uppercase;border-bottom:2px solid #86BCE8;padding-bottom:4px;white-space:nowrap;flex:none">Összes</div>
+          </div>
+          <a href="https://ferfikezegyorara.hu/biztositek-tabla-csere/" target="_blank" rel="noopener" style="text-decoration:none;color:#1C2A38;display:flex;flex-direction:column;gap:14px;margin-bottom:12px">
+            <div style="height:200px;overflow:hidden">
+              <img src="https://ferfikezegyorara.hu/wp-content/uploads/2020/02/biztositek-tabla-csere-400x250.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+            </div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#7C8A99">Ezermester · Felújítás</div>
+            <h3 style="font-family:Archivo,sans-serif;font-weight:800;font-size:24px;line-height:1.12;letter-spacing:-0.03em;margin:0;text-wrap:pretty">Biztosíték tábla csere – hogyan és miért?</h3>
+            <p style="font-size:15.5px;line-height:1.6;color:#566472;margin:0">Az elektromos hálózat védelme érdekében a biztosíték tábla csere időnként szükségessé válik.</p>
+          </a>
+          <div style="border-top:1px solid rgba(28,42,56,0.16)">
+            <a href="https://ferfikezegyorara.hu/almennyezet-felrakasa/" target="_blank" rel="noopener" style="text-decoration:none;color:#1C2A38;display:grid;grid-template-columns:minmax(0,1fr) 92px;gap:16px;align-items:center;padding:18px 0;border-bottom:1px solid rgba(28,42,56,0.16)">
+              <div>
+                <div style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#7C8A99;margin-bottom:8px">Felújítás</div>
+                <h3 style="font-family:Archivo,sans-serif;font-weight:700;font-size:17px;line-height:1.25;letter-spacing:-0.02em;margin:0">Álmennyezet felrakása lépésről lépésre</h3>
+              </div>
+              <div style="height:72px;overflow:hidden">
+                <img src="https://ferfikezegyorara.hu/wp-content/uploads/2020/02/almennyezet-felrakasa-fo-400x250.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+              </div>
+            </a>
+            <a href="https://ferfikezegyorara.hu/mozgaserzekelos-lampa-bekotese/" target="_blank" rel="noopener" style="text-decoration:none;color:#1C2A38;display:grid;grid-template-columns:minmax(0,1fr) 92px;gap:16px;align-items:center;padding:18px 0;border-bottom:1px solid rgba(28,42,56,0.16)">
+              <div>
+                <div style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#7C8A99;margin-bottom:8px">Házban végezhető munkák</div>
+                <h3 style="font-family:Archivo,sans-serif;font-weight:700;font-size:17px;line-height:1.25;letter-spacing:-0.02em;margin:0">Mozgásérzékelős lámpa bekötése</h3>
+              </div>
+              <div style="height:72px;overflow:hidden">
+                <img src="https://ferfikezegyorara.hu/wp-content/uploads/2020/02/mozgaserzekelos-lampa-bekotese-400x250.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+              </div>
+            </a>
+            <a href="https://ferfikezegyorara.hu/peneszes-fal-kezelese/" target="_blank" rel="noopener" style="text-decoration:none;color:#1C2A38;display:grid;grid-template-columns:minmax(0,1fr) 92px;gap:16px;align-items:center;padding:18px 0;border-bottom:1px solid rgba(28,42,56,0.16)">
+              <div>
+                <div style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#7C8A99;margin-bottom:8px">Ezermester · Felújítás</div>
+                <h3 style="font-family:Archivo,sans-serif;font-weight:700;font-size:17px;line-height:1.25;letter-spacing:-0.02em;margin:0">Penészes fal kezelése – hatékony megoldások</h3>
+              </div>
+              <div style="height:72px;overflow:hidden">
+                <img src="https://ferfikezegyorara.hu/wp-content/uploads/2020/01/peneszes-fal-kezelese-400x250.jpg" alt="" style="width:100%;height:100%;object-fit:cover;display:block">
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+    </sc-if>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isServices }}" hint-placeholder-val="{{ false }}">
+  <main style="background:#EDF2F6;padding:36px 0 52px">
+    <div style="padding:0 16px">
+      <h1 style="font-family:Archivo,sans-serif;font-weight:900;font-size:38px;line-height:0.98;letter-spacing:-0.035em;margin:0 0 14px">Szolgáltatásaink</h1>
+      <p style="font-size:16px;line-height:1.6;color:#566472;margin:0 0 24px">Válasszon kategóriát. Ha nem találja, amit keres, hívjon — szinte mindent megoldunk.</p>
+    </div>
+    <div class="fk-scroll" style="display:flex;gap:8px;overflow-x:auto;padding:0 16px 24px;scrollbar-width:none">
+      <sc-for list="{{ subtabs }}" as="s" hint-placeholder-count="3">
+        <div onClick="{{ s.onClick }}" style="cursor:pointer;flex:none;font-family:Archivo,sans-serif;font-weight:800;font-size:12.5px;letter-spacing:0.04em;text-transform:uppercase;padding:14px 20px;background:{{ s.bg }};color:{{ s.fg }};white-space:nowrap">{{ s.label }}</div>
+      </sc-for>
+    </div>
+    <div style="padding:0 16px">
+      <div style="height:230px;overflow:hidden;background-image:url({{ subHero }});background-size:cover;background-position:center;margin-bottom:8px"></div>
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:28px">
+        <sc-for list="{{ subGallery }}" as="g" hint-placeholder-count="3">
+          <div style="height:78px;overflow:hidden;background-image:url({{ g }});background-size:cover;background-position:center"></div>
+        </sc-for>
+      </div>
+      <h2 style="font-family:Archivo,sans-serif;font-weight:900;font-size:28px;letter-spacing:-0.03em;margin:0 0 12px">{{ subTitle }}</h2>
+      <p style="font-size:15.5px;line-height:1.6;color:#566472;margin:0 0 24px">{{ subDesc }}</p>
+      <div style="border-top:1px solid rgba(28,42,56,0.14)">
+        <sc-for list="{{ subItems }}" as="i" hint-placeholder-count="8">
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:15px 0;border-bottom:1px solid rgba(28,42,56,0.14)">
+            <div style="width:6px;height:6px;background:#86BCE8;flex:none;margin-top:7px"></div>
+            <div style="font-size:15.5px;font-weight:500;line-height:1.45">{{ i }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <a href="tel:+36205721788" style="display:block;margin-top:26px;background:#1C2A38;color:#86BCE8;font-family:Archivo,sans-serif;font-weight:800;font-size:14px;letter-spacing:0.04em;padding:20px;text-transform:uppercase;text-align:center">Kérek árajánlatot</a>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isPrices }}" hint-placeholder-val="{{ false }}">
+  <main style="background:#EDF2F6;padding:36px 0 52px">
+    <div style="padding:0 16px">
+      <h1 style="font-family:Archivo,sans-serif;font-weight:900;font-size:38px;line-height:0.98;letter-spacing:-0.035em;margin:0 0 14px">Áraink</h1>
+      <p style="font-size:16px;line-height:1.6;color:#566472;margin:0 0 26px">Áraink 2022.12.01-től. Minden csomag tartalmazza a kiszállás díját is, mely 8.000 Ft.</p>
+      <div style="display:grid;gap:12px;margin-bottom:28px">
+        <sc-for list="{{ packages }}" as="c" hint-placeholder-count="4">
+          <div style="background:{{ c.bg }};color:{{ c.fg }};padding:26px 22px 28px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-family:Archivo,sans-serif;font-weight:900;font-size:24px;letter-spacing:-0.03em;line-height:1.05">{{ c.name }}</div>
+            <p style="font-size:14.5px;line-height:1.55;margin:0;opacity:0.8">{{ c.note }}</p>
+            <div style="display:grid;gap:12px">
+              <div style="border-top:1px solid rgba(128,128,128,0.35);padding-top:12px;display:flex;justify-content:space-between;gap:12px;align-items:baseline">
+                <div style="font-size:13px;opacity:0.8">Első óra (1 ember)</div>
+                <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:16px;white-space:nowrap">{{ c.p1 }}</div>
+              </div>
+              <div style="border-top:1px solid rgba(128,128,128,0.35);padding-top:12px;display:flex;justify-content:space-between;gap:12px;align-items:baseline">
+                <div style="font-size:13px;opacity:0.8">Első óra (2 ember)</div>
+                <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:16px;white-space:nowrap">{{ c.p2 }}</div>
+              </div>
+              <div style="border-top:1px solid rgba(128,128,128,0.35);padding-top:12px;display:flex;justify-content:space-between;gap:12px;align-items:baseline">
+                <div style="font-size:13px;opacity:0.8">További fél óra (1 / 2 ember)</div>
+                <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:16px;white-space:nowrap">{{ c.h }}</div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="background:#fff;padding:26px 22px;display:grid;gap:16px;margin-bottom:12px">
+        <sc-for list="{{ priceNotes }}" as="n" hint-placeholder-count="4">
+          <p style="font-size:15px;line-height:1.6;margin:0;color:#22303E">{{ n }}</p>
+        </sc-for>
+      </div>
+      <div style="background:#fff;padding:26px 22px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:17px;line-height:1.25;letter-spacing:-0.02em">Kiszállást Budapest és Pest megyében, Székesfehérváron, Veszprémben, Győrben, Tatán, Tatabányán vállalunk</div>
+        <div style="height:220px;overflow:hidden">
+          <img src="https://ferfikezegyorara.hu/wp-content/uploads/2022/04/terkep_2.jpg" alt="szolgáltatási terület" style="width:100%;height:100%;object-fit:contain;display:block">
+        </div>
+      </div>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isTeam }}" hint-placeholder-val="{{ false }}">
+  <main style="background:#EDF2F6;padding:36px 0 52px">
+    <div style="padding:0 16px">
+      <h1 style="font-family:Archivo,sans-serif;font-weight:900;font-size:38px;line-height:0.98;letter-spacing:-0.035em;margin:0 0 14px">Csapatunk</h1>
+      <p style="font-size:16px;line-height:1.6;color:#566472;margin:0 0 26px">Szerelő fiúk — és a csapat, aki összefogja.</p>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px">
+        <sc-for list="{{ team }}" as="m" hint-placeholder-count="6">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="height:210px;overflow:hidden;background-image:url({{ m.img }});background-size:cover;background-position:center"></div>
+            <div>
+              <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:16px;letter-spacing:-0.02em;line-height:1.2">{{ m.name }}</div>
+              <div style="font-size:12.5px;color:#7C8A99;margin-top:4px">{{ m.role }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isRefs }}" hint-placeholder-val="{{ false }}">
+  <main style="background:#EDF2F6;padding:36px 0 52px">
+    <div style="padding:0 16px">
+      <h1 style="font-family:Archivo,sans-serif;font-weight:900;font-size:38px;line-height:0.98;letter-spacing:-0.035em;margin:0 0 14px">Referenciáink</h1>
+      <p style="font-size:16px;line-height:1.6;color:#566472;margin:0 0 26px">Néhány elvégzett munka az elmúlt időszakból.</p>
+      <div style="display:grid;gap:20px">
+        <sc-for list="{{ refPhotos }}" as="r" hint-placeholder-count="6">
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <div style="height:250px;overflow:hidden;background-image:url({{ r.img }});background-size:cover;background-position:center"></div>
+            <div style="font-family:Archivo,sans-serif;font-weight:700;font-size:18px;letter-spacing:-0.02em">{{ r.t }}</div>
+          </div>
+        </sc-for>
+        <div style="background:#1C2A38;color:#86BCE8;padding:28px 22px;display:flex;flex-direction:column;gap:22px">
+          <div style="font-family:Archivo,sans-serif;font-weight:900;font-size:23px;line-height:1.1;letter-spacing:-0.03em">Az Ön munkája is ide kerülhet.</div>
+          <a href="tel:+36205721788" style="color:#EDF2F6;font-family:Archivo,sans-serif;font-weight:800;font-size:13px;letter-spacing:0.06em;text-transform:uppercase">+36 20 572 1788 →</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isPartners }}" hint-placeholder-val="{{ false }}">
+  <main style="background:#EDF2F6;padding:36px 0 52px">
+    <div style="padding:0 16px">
+      <h1 style="font-family:Archivo,sans-serif;font-weight:900;font-size:34px;line-height:1;letter-spacing:-0.035em;margin:0 0 14px">Franchise hálózati partnerek</h1>
+      <p style="font-size:16px;line-height:1.6;color:#566472;margin:0 0 22px">Partneri hálózatunk bővítéséhez ezermestereket keresünk vidéki városokban.</p>
+      <div style="height:230px;overflow:hidden;margin-bottom:28px">
+        <img src="https://ferfikezegyorara.hu/wp-content/uploads/2018/11/ezermester.jpg" alt="ezermester partnerek" style="width:100%;height:100%;object-fit:cover;display:block">
+      </div>
+      <h2 style="font-family:Archivo,sans-serif;font-weight:900;font-size:26px;line-height:1.08;letter-spacing:-0.03em;margin:0 0 14px">Miért éri meg csatlakozni Önnek hozzánk?</h2>
+      <p style="font-size:15.5px;line-height:1.6;color:#566472;margin:0 0 8px">Önnek tényleg csak a munkát kell elvégeznie. A megrendelők már nagyon várják az újabb ezermestert.</p>
+      <div style="border-top:1px solid rgba(28,42,56,0.16);margin-bottom:26px">
+        <sc-for list="{{ partnerBenefits }}" as="b" hint-placeholder-count="5">
+          <div style="display:grid;grid-template-columns:38px minmax(0,1fr);gap:12px;padding:20px 0;border-bottom:1px solid rgba(28,42,56,0.16)">
+            <div style="font-family:Archivo,sans-serif;font-weight:900;font-size:20px;color:#1F6FA8;letter-spacing:-0.03em">{{ b.n }}</div>
+            <p style="font-size:15.5px;line-height:1.55;margin:0;color:#22303E">{{ b.t }}</p>
+          </div>
+        </sc-for>
+      </div>
+      <a href="https://ferfikezegyorara.hu/partner-jelentkezes" target="_blank" rel="noopener" style="display:block;background:#1C2A38;color:#86BCE8;font-family:Archivo,sans-serif;font-weight:800;font-size:14px;letter-spacing:0.06em;text-transform:uppercase;padding:20px;text-align:center;text-decoration:none">Jelentkezem</a>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isBlog }}" hint-placeholder-val="{{ false }}">
+  <main style="background:#EDF2F6;padding:36px 0 52px">
+    <div style="padding:0 16px">
+      <h1 style="font-family:Archivo,sans-serif;font-weight:900;font-size:38px;line-height:0.98;letter-spacing:-0.035em;margin:0 0 14px">Cikkek</h1>
+      <p style="font-size:16px;line-height:1.6;color:#566472;margin:0 0 22px">Ezermester tippek a ház, a kert és az autó körüli munkákhoz.</p>
+    </div>
+    <div class="fk-scroll" style="display:flex;gap:8px;overflow-x:auto;padding:0 16px 24px;scrollbar-width:none">
+      <sc-for list="{{ blogCats }}" as="c" hint-placeholder-count="6">
+        <div onClick="{{ c.onClick }}" style="cursor:pointer;flex:none;font-family:Archivo,sans-serif;font-weight:800;font-size:12px;letter-spacing:0.04em;text-transform:uppercase;padding:13px 18px;background:{{ c.bg }};color:{{ c.fg }};white-space:nowrap">{{ c.label }}</div>
+      </sc-for>
+    </div>
+    <div style="padding:0 16px">
+      <div style="border-top:1px solid rgba(28,42,56,0.14)">
+        <sc-for list="{{ posts }}" as="p">
+          <a href="{{ p.url }}" target="_blank" rel="noopener" style="text-decoration:none;color:#1C2A38;display:flex;flex-direction:column;gap:12px;padding:20px 0;border-bottom:1px solid rgba(28,42,56,0.14)">
+            <div style="height:170px;overflow:hidden">
+              <div style="width:100%;height:100%;background-image:url({{ p.img }});background-size:cover;background-position:center"></div>
+            </div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#7C8A99">{{ p.cat }}</div>
+            <h2 style="font-family:Archivo,sans-serif;font-weight:700;font-size:21px;line-height:1.2;letter-spacing:-0.025em;margin:0">{{ p.t }}</h2>
+            <p style="font-size:15px;line-height:1.55;color:#566472;margin:0">{{ p.ex }}</p>
+            <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:11.5px;letter-spacing:0.08em;text-transform:uppercase;color:#1F6FA8">Bővebben →</div>
+          </a>
+        </sc-for>
+      </div>
+      <sc-if value="{{ noPosts }}" hint-placeholder-val="{{ false }}">
+        <p style="font-size:16px;color:#566472;padding:32px 0 0;margin:0">Ebben a kategóriában még nincs cikk.</p>
+      </sc-if>
+    </div>
+  </main>
+  </sc-if>
+
+  <sc-if value="{{ isContact }}" hint-placeholder-val="{{ false }}">
+  <main style="background:#EDF2F6;padding:36px 0 52px">
+    <div style="padding:0 16px">
+      <h1 style="font-family:Archivo,sans-serif;font-weight:900;font-size:38px;line-height:0.98;letter-spacing:-0.035em;margin:0 0 14px">Kapcsolat</h1>
+      <p style="font-size:16px;line-height:1.6;color:#566472;margin:0 0 26px">Hívjon, írjon, vagy töltse ki az űrlapot — rövid időn belül keressük.</p>
+      <div style="display:grid;gap:2px;margin-bottom:26px">
+        <a href="tel:+36205721788" style="background:#1C2A38;color:#EDF2F6;padding:22px;display:block">
+          <div style="font-size:9.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;opacity:0.6;margin-bottom:7px">Telefon</div>
+          <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:24px;letter-spacing:-0.03em">+36 20 572 1788</div>
+        </a>
+        <a href="mailto:ferfikez@gmail.com" style="background:#fff;color:#1C2A38;padding:22px;display:block">
+          <div style="font-size:9.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#7C8A99;margin-bottom:7px">E-mail</div>
+          <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.025em">ferfikez@gmail.com</div>
+        </a>
+        <a href="https://www.facebook.com/ferfikez/" style="background:#fff;color:#1C2A38;padding:22px;display:block">
+          <div style="font-size:9.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#7C8A99;margin-bottom:7px">Messenger</div>
+          <div style="font-family:Archivo,sans-serif;font-weight:800;font-size:19px;letter-spacing:-0.025em">facebook.com/ferfikez</div>
+        </a>
+      </div>
+      <div style="background:#fff;padding:26px 22px 30px">
+        <h2 style="font-family:Archivo,sans-serif;font-weight:800;font-size:22px;letter-spacing:-0.025em;margin:0 0 22px">Megrendelő űrlap</h2>
+        <div style="display:grid;gap:18px">
+          <sc-for list="{{ fields }}" as="f" hint-placeholder-count="4">
+            <div>
+              <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#7C8A99;margin-bottom:8px">{{ f.label }}</div>
+              <input placeholder="{{ f.ph }}" style="width:100%;box-sizing:border-box;border:none;border-bottom:1.5px solid rgba(28,42,56,0.22);background:transparent;padding:12px 0;font-family:Manrope,sans-serif;font-size:16px;outline:none" style-focus="border-bottom-color:#86BCE8">
+            </div>
+          </sc-for>
+          <div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#7C8A99;margin-bottom:8px">Miben segíthetünk?</div>
+            <textarea rows="4" placeholder="Rövid leírás a munkáról" style="width:100%;box-sizing:border-box;border:none;border-bottom:1.5px solid rgba(28,42,56,0.22);background:transparent;padding:12px 0;font-family:Manrope,sans-serif;font-size:16px;outline:none;resize:vertical" style-focus="border-bottom-color:#86BCE8"></textarea>
+          </div>
+          <div style="background:#1C2A38;color:#86BCE8;font-family:Archivo,sans-serif;font-weight:800;font-size:14px;letter-spacing:0.04em;padding:20px;text-transform:uppercase;text-align:center;cursor:pointer;margin-top:8px">Elküldöm</div>
+        </div>
+      </div>
+    </div>
+  </main>
+  </sc-if>
+
+  <section style="background:#86BCE8;color:#1C2A38;padding:44px 16px">
+    <h2 style="font-family:Archivo,sans-serif;font-weight:900;font-size:28px;line-height:1.04;letter-spacing:-0.03em;margin:0 0 22px">Egy elromlott csap sem várhat örökké.</h2>
+    <a href="tel:+36205721788" style="display:block;background:#1C2A38;color:#86BCE8;font-family:Archivo,sans-serif;font-weight:800;font-size:14.5px;letter-spacing:0.04em;padding:20px;text-transform:uppercase;text-align:center">+36 20 572 1788</a>
+  </section>
+
+  <footer style="background:#1C2A38;color:#EDF2F6;padding:40px 16px 28px">
+    <div style="font-family:Archivo,sans-serif;font-weight:900;font-size:19px;letter-spacing:-0.03em;text-transform:uppercase">Férfikéz <span style="color:#86BCE8">egy órára</span></div>
+    <p style="font-size:14.5px;line-height:1.6;color:#7C8A99;margin:12px 0 26px">Ezermester szolgáltatások minden javítási munkára — házon belül, kertben, autó körül.</p>
+    <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px">
+      <div>
+        <div style="font-size:9.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#86BCE8;margin-bottom:14px">Oldalak</div>
+        <div style="display:grid;gap:9px">
+          <sc-for list="{{ nav }}" as="n" hint-placeholder-count="8">
+            <div onClick="{{ n.onClick }}" style="cursor:pointer;font-size:14px;color:#C2CDD8">{{ n.label }}</div>
+          </sc-for>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:9.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#86BCE8;margin-bottom:14px">Elérhetőség</div>
+        <div style="display:grid;gap:9px;font-size:14px;color:#C2CDD8">
+          <a href="tel:+36205721788" style="color:#C2CDD8">+36 20 572 1788</a>
+          <a href="mailto:ferfikez@gmail.com" style="color:#C2CDD8">ferfikez@gmail.com</a>
+          <a href="https://www.facebook.com/ferfikez/" style="color:#C2CDD8">Facebook</a>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:32px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.1);display:grid;gap:8px;font-size:12px;color:#5E6B78">
+      <div>© 2026 Férfikéz egy órára. Minden jog fenntartva.</div>
+      <div>Adatkezelési tájékoztató</div>
+    </div>
+  </footer>
+
+  <div style="position:fixed;bottom:0;left:0;right:0;z-index:70;max-width:520px;margin:0 auto;background:#1C2A38;border-top:1px solid rgba(255,255,255,0.1);display:grid;grid-template-columns:1fr 1fr;gap:1px;padding:10px 12px 12px">
+    <a href="tel:+36205721788" style="background:#86BCE8;color:#1C2A38;font-family:Archivo,sans-serif;font-weight:800;font-size:13px;letter-spacing:0.05em;text-transform:uppercase;padding:16px;text-align:center;margin-right:5px">Hívás</a>
+    <div onClick="{{ goContact }}" style="cursor:pointer;border:1px solid rgba(255,255,255,0.28);color:#EDF2F6;font-family:Archivo,sans-serif;font-weight:800;font-size:13px;letter-spacing:0.05em;text-transform:uppercase;padding:16px;text-align:center;margin-left:5px">Ajánlat</div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:420,&quot;height&quot;:860},&quot;showEbook&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Tartalom&quot;},&quot;showBlogOnHome&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Tartalom&quot;}}">
+class Component extends DCLogic {
+  state = { page: 'home', sub: 'hazon', cat: 'all', menuOpen: false };
+
+  go(p) { return () => { this.setState({ page: p }); window.scrollTo(0, 0); }; }
+  goClose(p) { return () => { this.setState({ page: p, menuOpen: false }); window.scrollTo(0, 0); }; }
+  goSub(k) { return () => this.setState({ sub: k }); }
+
+  renderVals() {
+    const U = 'https://ferfikezegyorara.hu/wp-content/uploads/';
+    const page = this.state.page;
+    const navDefs = [
+      ['home', 'Kezdőlap'], ['services', 'Szolgáltatásaink'], ['prices', 'Áraink'],
+      ['team', 'Csapatunk'], ['refs', 'Referenciáink'], ['partners', 'Partnerek'],
+      ['blog', 'Cikkek'], ['contact', 'Kapcsolat']
+    ];
+    const nav = navDefs.map(([id, label], i) => ({
+      id, label, num: '0' + (i + 1),
+      onClick: this.go(id), onClickClose: this.goClose(id),
+      color: id === page ? '#86BCE8' : '#EDF2F6',
+      numColor: id === page ? '#86BCE8' : '#5E6B78'
+    }));
+
+    const catDefs = [
+      ['all', 'Összes'], ['ezermester', 'Ezermester'], ['felujitas', 'Felújítás'],
+      ['hazban', 'Házban végezhető munkák'], ['kerti', 'Kerti munkák'], ['autos', 'Autós munkák']
+    ];
+    const allPosts = [
+      { k: ['ezermester','felujitas','hazban'], cat: 'Ezermester · Felújítás', t: 'Biztosíték tábla csere – hogyan és miért?', ex: 'Az elektromos hálózat védelme érdekében a biztosíték tábla csere időnként szükségessé válik.', url: 'https://ferfikezegyorara.hu/biztositek-tabla-csere/', img: U + '2020/02/biztositek-tabla-csere-400x250.jpg' },
+      { k: ['ezermester','felujitas','hazban'], cat: 'Felújítás', t: 'Álmennyezet felrakása lépésről lépésre', ex: 'A plafon díszítésére, hibáinak eltüntetésére gyors megoldás a hungarocell vagy fa álmennyezet.', url: 'https://ferfikezegyorara.hu/almennyezet-felrakasa/', img: U + '2020/02/almennyezet-felrakasa-fo-400x250.jpg' },
+      { k: ['ezermester','hazban','kerti'], cat: 'Házban végezhető munkák', t: 'Mozgásérzékelős lámpa bekötése', ex: 'Praktikus megoldás: kültéren biztonsági funkciója is van, és energiát is megtakarít.', url: 'https://ferfikezegyorara.hu/mozgaserzekelos-lampa-bekotese/', img: U + '2020/02/mozgaserzekelos-lampa-bekotese-400x250.jpg' },
+      { k: ['ezermester','felujitas','hazban'], cat: 'Ezermester · Felújítás', t: 'Penészes fal kezelése – hatékony megoldások', ex: 'A penészes fal kezelése nem csak esztétikai okokból fontos: a penész gombafajta, ami terjed.', url: 'https://ferfikezegyorara.hu/peneszes-fal-kezelese/', img: U + '2020/01/peneszes-fal-kezelese-400x250.jpg' },
+      { k: ['autos'], cat: 'Autós munkák', t: 'Ha nem indul az autó – problémák és azok okai', ex: 'Aki autót vezet, előbb-utóbb találkozik vele. Végigvesszük a leggyakoribb okokat.', url: 'https://ferfikezegyorara.hu/ha-nem-indul-az-auto/', img: U + '2020/01/nem-indul-az-auto-400x250.jpg' },
+      { k: ['hazban'], cat: 'Házban végezhető munkák', t: 'Mosogatógép bekötése csapra', ex: 'Néhány plusz alkatrész és kis gyakorlat kell hozzá — megmutatjuk, mi a sorrend.', url: 'https://ferfikezegyorara.hu/mosogatogep-bekotese-csapra/', img: U + '2020/01/mosogatogep-bekotese-csapra-400x250.jpg' }
+    ];
+    const filtered = allPosts.filter(p => this.state.cat === 'all' || p.k.includes(this.state.cat));
+
+    const subs = {
+      hazon: {
+        label: 'Házon belül', title: 'Házon belül végzett munkák',
+        desc: 'Ezeket a házon belül végzett munkákat végezzük el Ön helyett.',
+        hero: U + '2019/10/polc-kerettel.jpg',
+        gallery: [
+          U + '2018/03/k%C3%A9pfelf%C3%BAr%C3%A1s-1-e1556826618858.jpg',
+          U + '2018/03/l%C3%A1mpafelszerel%C3%A9s-1-e1556826627118.jpg',
+          U + '2018/03/l%C3%A1mpafelszerel%C3%A9s-e1556826597309.jpg'
+        ],
+        items: [
+          'Polc-, kép-, tükör-, szekrényfelszerelés',
+          'Bútor-összeszerelés (több darabra, szekrénysorra, gardróbra egyedi ajánlat)',
+          'Beázás javítás, csempepótlás',
+          'Zárbetétcsere, kilincscsere, ajtó, ablak beállítása, kis javítási munkák',
+          'Fúrás-faragás-ragasztás',
+          'Mosógép-, mosogatógép-bekötés, páraelszívó kivezetése',
+          'Csöpögő csap javítása, csapcsere, villanybojler vízkőmentesítése, WC tartály cseréje és javítása, eldugult lefolyó tisztítása',
+          'Lámpa-, kapcsoló-, konnektor-, biztosítékcsere'
+        ]
+      },
+      kerti: {
+        label: 'Kerti munkák', title: 'Kerti munkák',
+        desc: 'Ezeket a kerti munkákat végezzük el Ön helyett.',
+        hero: U + '2017/06/dekor_3-e1556826069555.jpg',
+        gallery: [
+          U + '2018/03/s%C3%B6v%C3%A9nyny%C3%ADr%C3%A1s-e1556826658740.jpg',
+          U + '2018/03/fakiv%C3%A1g%C3%A1s-e1556826648202.jpg',
+          U + '2018/03/kerti-csap-jav%C3%ADt%C3%A1sa-e1641818766644.jpg'
+        ],
+        items: [
+          'Fűnyírás, gyepszellőztetés',
+          'Sövénynyírás, tüzelőbehordás, favágás',
+          'Csatornatisztítás',
+          'Kerticsap-javítás, csere',
+          'Kerítésjavítás (felújításra egyedi árajánlatot adunk)',
+          'Terasz-, lépcső-, burkolat-, járda-, kertiút-javítás',
+          'Fakivágás, gallyazás (nagyobb fa esetén egyedi árajánlat)'
+        ]
+      },
+      autos: {
+        label: 'Autós munkák', title: 'Autós munkák',
+        desc: 'Gond van az autóval, nem indul, kereket kell cserélni, téli felkészítésre van szükség — ebben is tudunk segíteni.',
+        hero: U + '2022/01/autoszereles.jpg',
+        gallery: [
+          U + '2018/03/akkumuk%C3%A1tor-cser%C3%A9je-e1556826586298-400x284.jpg',
+          U + '2018/03/ker%C3%A9kcsere-e1556826577134-400x284.jpg',
+          U + '2018/03/gumicsere-1-400x284.jpg'
+        ],
+        items: [
+          'Kerékcsere',
+          'Akkumulátor cseréje, töltése',
+          'Levegőszűrő csere',
+          'Légkondicionáló tisztítás',
+          'Ablaktörlő lapátok cseréje',
+          'Téli felkészítés és ellenőrzés'
+        ]
+      }
+    };
+    const sub = subs[this.state.sub] || subs.hazon;
+    const labels = { home: 'Kezdőlap', services: 'Szolgáltatásaink', prices: 'Áraink', team: 'Csapatunk', refs: 'Referenciáink', partners: 'Partnerek', blog: 'Cikkek', contact: 'Kapcsolat' };
+
+    return {
+      nav,
+      pageLabel: labels[page] || 'Kezdőlap',
+      menuOpen: this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+
+      goHome: this.go('home'), goServices: this.go('services'),
+      goBlog: this.go('blog'), goContact: this.go('contact'),
+      goHazon: () => { this.setState({ page: 'services', sub: 'hazon' }); window.scrollTo(0, 0); },
+      goKerti: () => { this.setState({ page: 'services', sub: 'kerti' }); window.scrollTo(0, 0); },
+      goAutos: () => { this.setState({ page: 'services', sub: 'autos' }); window.scrollTo(0, 0); },
+
+      isHome: page === 'home', isServices: page === 'services', isPrices: page === 'prices',
+      isTeam: page === 'team', isRefs: page === 'refs', isPartners: page === 'partners',
+      isBlog: page === 'blog', isContact: page === 'contact',
+
+      showEbook: this.props.showEbook ?? true,
+      showBlogOnHome: this.props.showBlogOnHome ?? true,
+
+      tags: ['Fúrás', 'Szerelés', 'Bútorösszeszerelés', 'Kerti munka', 'Autós munka'],
+      svcHazon: subs.hazon.hero, svcKerti: subs.kerti.hero, svcAutos: subs.autos.hero,
+
+      steps: [
+        { n: '1', t: 'Felhív minket', d: 'Elmondja, mi a feladat. Telefonon, e-mailben vagy az űrlapon.' },
+        { n: '2', t: 'Időpontot egyeztetünk', d: 'Megbeszéljük az időpontot és a várható árat.' },
+        { n: '3', t: 'Elvégezzük', d: 'Megérkezünk a szerszámokkal, és a munka aznap elkészül.' }
+      ],
+
+      subtabs: Object.keys(subs).map(k => ({
+        label: subs[k].label, onClick: this.goSub(k),
+        bg: k === this.state.sub ? '#1C2A38' : '#FFFFFF',
+        fg: k === this.state.sub ? '#86BCE8' : '#1C2A38'
+      })),
+      subTitle: sub.title, subDesc: sub.desc, subItems: sub.items,
+      subHero: sub.hero, subGallery: sub.gallery,
+
+      packages: [
+        { name: 'Ráérős csomag', note: 'Tartalmazza a kiszállási költséget és a parkolási díjat, időpontot 1,5-2 héten belül tudunk adni.', p1: '10.000 Ft + 8.000 Ft', p2: '15.000 Ft + 8.000 Ft', h: '5.000 / 7.500 Ft', bg: '#1C2A38', fg: '#EDF2F6' },
+        { name: 'Sürgős csomag', note: 'Ha fontos, hogy mielőbb elvégezzük a munkát, de nem szükséges SOS munkavégzés: 72 órán belül időpontot biztosítunk.', p1: '16.000 Ft + 8.000 Ft', p2: '24.000 Ft + 8.000 Ft', h: '8.000 / 12.000 Ft', bg: '#FFFFFF', fg: '#1C2A38' },
+        { name: 'Azonnal kell csomag', note: 'Ha nem ér rá napokat várni, akkor válassza ezt a csomagot: 24 órán belül időpontot biztosítunk.', p1: '20.000 Ft + 8.000 Ft', p2: '30.000 Ft + 8.000 Ft', h: '10.000 / 15.000 Ft', bg: '#86BCE8', fg: '#1C2A38' },
+        { name: 'Szombati csomag', note: 'Korlátozottan áll rendelkezésre.', p1: '16.000 Ft + 8.000 Ft', p2: '24.000 Ft + 8.000 Ft', h: '8.000 / 12.000 Ft', bg: '#FFFFFF', fg: '#1C2A38' }
+      ],
+      priceNotes: [
+        'A csomagdíjak bruttó árak, és nem tartalmazzák a szereléshez felhasznált anyagok díját.',
+        'Anyagbeszerzést is vállalunk, de az azzal eltöltött időt felszámoljuk óradíjként.',
+        'Az általunk elvégzett munkára teljes körű garanciát vállalunk. Kivételt képeznek ez alól a megrendelő által hozott, nem megfelelő minőségű tiplik, dűbelek miatt létrejövő meghibásodások.',
+        'Fizetni készpénzzel, átutalással és bankkártyával is lehet. A bankkártyás fizetés terminálon keresztül történik.'
+      ],
+
+      team: [
+        { img: U + '2018/04/Zsolt-es-Laci-e1524305583368.jpg', name: 'Zsolt és Laci', role: 'Szerelő fiúk' },
+        { img: U + '2022/02/IMG_2306-240x320.jpg', name: 'Lóri és Roland', role: 'Az ikrek' },
+        { img: U + '2022/02/IMG_20200511_102139-FILEminimizer-240x320.jpg', name: 'Pisti', role: 'A kertészünk' },
+        { img: U + '2022/02/IMG_20210929_091444-FILEminimizer-240x320.jpg', name: 'Zsolti', role: 'A mindenes' },
+        { img: U + '2022/02/IMG_20210611_152354-FILEminimizer-426x320.jpg', name: 'Laci, Zsolti, Pisti és Gyula', role: 'Csapatépítő tréning' },
+        { img: U + '2022/02/95018754_3309102425769188_8648781433571115008_o-320x320.jpg', name: 'Várhelyi Ági', role: '… és a csapatot, aki összefogja' }
+      ],
+
+      refPhotos: [
+        { img: U + '2018/03/kesz-gyerekagy-e1556826725311.jpg', t: 'Ágyak összeszerelése' },
+        { img: U + '2018/03/butorszereles2-e1556826761961.jpg', t: 'Szekrénysor összeszerelése' },
+        { img: U + '2018/03/kep-falra-furasa-e1556826802699.jpg', t: 'Kép felfúrása' },
+        { img: U + '2018/03/lampak-felszerelese-e1556826826291.jpg', t: 'Lámpák és polcok felszerelése' },
+        { img: U + '2018/03/csapszereles-e1556826850352.jpg', t: 'Csapszerelés' },
+        { img: U + '2018/03/Tv-felszerelese-e1556826872392.jpg', t: 'TV felszerelése' }
+      ],
+
+      partnerBenefits: [
+        { n: '01', t: 'Kap egy teljesen kidolgozott marketing rendszert.' },
+        { n: '02', t: 'Bevezetett honlapot, Facebook közösséget, Pinterest és Instagram oldalt biztosítunk.' },
+        { n: '03', t: 'Elkészítjük Ön helyett az Adwords és Facebook hirdetéseket, sőt: mi fizetjük.' },
+        { n: '04', t: 'Automatizált rendszert nyújtunk: kollégáink mindent leegyeztetnek az ügyféllel, Ön a Google Naptárba kapja meg a helyszínt, feladatot, időpontot.' },
+        { n: '05', t: 'Folyamatos képzéseket és fejlesztéseket adunk a könnyebb munkavégzés érdekében.' }
+      ],
+
+      posts: filtered,
+      noPosts: filtered.length === 0,
+      blogCats: catDefs.map(([k, label]) => ({
+        label, onClick: () => this.setState({ cat: k }),
+        bg: k === this.state.cat ? '#1C2A38' : '#FFFFFF',
+        fg: k === this.state.cat ? '#86BCE8' : '#1C2A38'
+      })),
+
+      fields: [
+        { label: 'Név', ph: 'Kovács Anna' },
+        { label: 'Telefonszám', ph: '+36 20 000 0000' },
+        { label: 'E-mail', ph: 'nev@email.hu' },
+        { label: 'Helyszín', ph: 'Budapest, XI. kerület' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

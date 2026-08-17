@@ -1,6 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
-    { "source": "/", "destination": "/Ferfikez%20Redesign.dc.html" }
+    {
+      "source": "/",
+      "has": [
+        { "type": "header", "key": "user-agent", "value": ".*(Android|iPhone|iPod|Mobile).*" }
+      ],
+      "destination": "/Ferfikez%20Mobile.dc.html"
+    },
+    { "source": "/", "destination": "/Ferfikez%20Redesign.dc.html" },
+    { "source": "/mobile", "destination": "/Ferfikez%20Mobile.dc.html" },
+    { "source": "/desktop", "destination": "/Ferfikez%20Redesign.dc.html" }
   ]
 }
